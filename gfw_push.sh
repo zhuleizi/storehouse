@@ -7,7 +7,7 @@ export PATH
 #	Description: 监测IP是否被墙并推送消息至微信
 #	Version: 1.0.5
 #	Author: Zhuleizi
-#	Blog: ~~~~
+#	Blog: ~~~~~
 #=================================================
 
 sh_ver="1.0.5"
