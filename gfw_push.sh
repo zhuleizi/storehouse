@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS/Debian/Ubuntu
 #	Description: 监测IP是否被墙并推送消息至微信
-#	Version: 1.0.5
+#	Version: 1.0.6
 #	Author: Zhuleizi
 #	Blog: ~~~~~
 #=================================================
 
-sh_ver="1.0.5"
+sh_ver="1.0.6"
 filepath=$(cd "$(dirname "$0")"; pwd)
 file_1=$(echo -e "${filepath}"|awk -F "$0" '{print $1}')
 Crontab_file="/usr/bin/crontab"
@@ -371,7 +371,7 @@ if [[ "${action}" == "monitor" ]]; then
 	crontab_monitor
 else
 	echo && echo -e "  监测IP是否被墙脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  ---- Toyo | doub.io/shell-jc8 ----
+  ---- Toyo | 754912498 ----
   
  ${Green_font_prefix} 0.${Font_color_suffix} 升级脚本
 ————————————
