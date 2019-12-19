@@ -75,7 +75,7 @@ public class ExcelReport {
 		
 		logger.debug("打开EXCEL临时的模板文件PATH=" + tmpFileName);
 		// 理由：没有数据的场合
-		boolean isEmptyData = false;
+		/*boolean isEmptyData = false;
 		try {
 			if (null != reportDatas && reportDatas.length == 2 && reportDatas[1] instanceof java.util.ArrayList) {
 				if (null == ((java.util.ArrayList) reportDatas[1]) || ((java.util.ArrayList) reportDatas[1]).isEmpty()) {
@@ -84,7 +84,7 @@ public class ExcelReport {
 			}
 		} catch (Exception e) {
 			logger.warn(e.getMessage(), e);
-		}
+		}*/
 		
 		excelTemplate.initializeWorkbook(tmpFileName).executeTemplateParse(reportDatas);
 		
@@ -338,7 +338,7 @@ public class ExcelReport {
 		String tmpFileName = "";
 		
 		// 生成下载文件的临时路径
-		String tmpFilePath = tempDictionaryPath + "\\" + DateUtil.dateToString(new Date(), "yyyy-MM-dd") + "\\";
+		String tmpFilePath = tempDictionaryPath + File.separator + DateUtil.dateToString(new Date(), "yyyy-MM-dd") + File.separator;
 		
 		File file = new File(tmpFilePath);
 		if (!file.exists()) {
