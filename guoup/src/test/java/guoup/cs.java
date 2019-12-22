@@ -52,7 +52,7 @@ public class cs {
 		map.put("number", "001");
 		dataList.add(map);
 		
-		report.exportExcel(new ReportData(mapT, dataList), "D:/lzcx1.xls", "D://test//");
+		report.exportExcel(new ReportData(mapT, dataList), "E:/yhryxx.xls", "E://test//");
 		
 	}
 	

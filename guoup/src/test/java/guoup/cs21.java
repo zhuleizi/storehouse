@@ -67,7 +67,7 @@ public class cs21 {
 		
 		datalist.add(new ReportData(mapT, dataList));
 		
-		report.exportExcel(new SheetRef(cloneSheetName, datalist, "1", "2"), "D:/lzcx.xls", "D://test//");
+		report.exportExcel(new SheetRef(cloneSheetName, datalist, "1", "2"), "E:/lzcx.xls", "E://test//");
 		
 	}
 	

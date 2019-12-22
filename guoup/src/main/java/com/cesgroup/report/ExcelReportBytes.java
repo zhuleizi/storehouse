@@ -27,7 +27,7 @@ import com.cesgroup.report.util.StringUtils;
 /**
  * @author Sakamoto
  */
-public class ExcelReport {
+public class ExcelReportBytes {
 	
 	private ExcelTemplate excelTemplate = new ExcelTemplate();
 	
@@ -35,11 +35,11 @@ public class ExcelReport {
 	
 	private boolean isDelTemp = false;
 	
-	public ExcelReport() {
+	public ExcelReportBytes() {
 		this(true);
 	}
 	
-	public ExcelReport(boolean isDelTemp) {
+	public ExcelReportBytes(boolean isDelTemp) {
 		this.isDelTemp = isDelTemp;
 	}
 	
@@ -53,7 +53,7 @@ public class ExcelReport {
 	 * @throws Exception
 	 * @author Sakamoto
 	 */
-	public String exportExcel(ReportData reportDatas, String templatePath, String tempDictionaryPath) throws Exception {
+	public byte[] exportExcel(ReportData reportDatas, String templatePath, String tempDictionaryPath) throws Exception {
 		return this.exportExcel(new Object[] { reportDatas.getBaseInfo(), reportDatas.getDatalist() }, templatePath, tempDictionaryPath);
 	}
 	
@@ -67,7 +67,7 @@ public class ExcelReport {
 	 * @throws Exception
 	 * @author Sakamoto
 	 */
-	public String exportExcel(Object[] reportDatas, String templatePath, String tempDictionaryPath) throws Exception {
+	public byte[] exportExcel(Object[] reportDatas, String templatePath, String tempDictionaryPath) throws Exception {
 		byte[] bytes = new byte[0];
 		
 		// 临时文件
@@ -111,14 +111,14 @@ public class ExcelReport {
 		
 		logger.debug("临时文件保存成功PATH=" + tmpFileName);
 		
-		// bytes = excelTemplate.toBytes();
+		bytes = excelTemplate.toBytes();
 		
 		if (isDelTemp) {
 			new File(tmpFileName).delete();
 			logger.debug("临时文件删除成功PATH=" + tmpFileName);
 		}
 		
-		return tmpFileName;
+		return bytes;
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class ExcelReport {
 	 * @throws Exception
 	 * @author Sakamoto
 	 */
-	public String exportExcel(SheetRef sheetRef, String templateFile, String tempDir) throws Exception {
+	public byte[] exportExcel(SheetRef sheetRef, String templateFile, String tempDir) throws Exception {
 		
 		byte[] bytes = new byte[0];
 		
@@ -152,14 +152,13 @@ public class ExcelReport {
 		}
 		saveToFile(tmpFileName);
 		
-		// bytes = getBytes(tmpFileName);
-		
+		bytes = getBytes(tmpFileName);
 		if (isDelTemp) {
 			new File(tmpFileName).delete();
 			logger.debug("临时文件删除成功PATH=" + tmpFileName);
 		}
 		
-		return tmpFileName;
+		return bytes;
 	}
 	
 	/**
@@ -173,7 +172,7 @@ public class ExcelReport {
 	 * @throws Exception
 	 * @author Sakamoto
 	 */
-	public String exportExcel(SheetTable sheetTable, String templateFile, String tempDir) throws Exception {
+	public byte[] exportExcel(SheetTable sheetTable, String templateFile, String tempDir) throws Exception {
 		
 		byte[] bytes = new byte[0];
 		// 生成临时文件
@@ -197,14 +196,14 @@ public class ExcelReport {
 		}
 		saveToFile(tmpFileName);
 		
-		// bytes = getBytes(tmpFileName);
+		bytes = getBytes(tmpFileName);
 		
 		if (isDelTemp) {
 			new File(tmpFileName).delete();
 			logger.debug("临时文件删除成功PATH=" + tmpFileName);
 		}
 		
-		return tmpFileName;
+		return bytes;
 	}
 	
 	/**

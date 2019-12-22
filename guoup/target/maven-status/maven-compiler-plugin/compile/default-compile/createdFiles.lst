@@ -20,4 +20,5 @@ com\cesgroup\report\util\StringUtils.class
 com\cesgroup\report\ExcelReport.class
 com\cesgroup\report\util\StringUtils$StringFormatConstants.class
 com\cesgroup\report\config\excel\parse\ListParamParse.class
+com\cesgroup\report\ExcelReportBytes.class
 com\cesgroup\report\SheetTable.class
