@@ -245,7 +245,12 @@ public class ExcelColumnTemplate extends Parse implements ExcelTemplateParse {
 					Cell originCell = targetRow.getCell(index);
 					if(null != originCell) {
 						Cell targetCell = targetRow.createCell(index + insertNum);
-						targetCell.setCellValue(originCell.getStringCellValue());				
+						try {
+							copyCellValue(originCell,targetCell);
+						//targetCell.setCellValue(originCell.getStringCellValue());
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
 						targetCell.setCellStyle(originCell.getCellStyle());
 					}
 					targetRow.removeCell(originCell);
@@ -257,7 +262,8 @@ public class ExcelColumnTemplate extends Parse implements ExcelTemplateParse {
 							Cell originCell = targetRow.getCell(index);
 							if(null != originCell) {
 								Cell targetCell = targetRow.createCell(index + insertNum);
-								targetCell.setCellValue(originCell.getStringCellValue());
+								//targetCell.setCellValue(originCell.getStringCellValue());
+								copyCellValue(originCell,targetCell);
 								targetCell.setCellStyle(originCell.getCellStyle());
 								
 							}
@@ -273,11 +279,57 @@ public class ExcelColumnTemplate extends Parse implements ExcelTemplateParse {
 				}
 				
 			}
+			// 对应补列前的问题 Start
+			if((startCell - 1) > 0) {
+				cellRangeAddress = getCellRangeAddress( sheet,  rowIndex,  startCell-1);
+				if(null != cellRangeAddress) {
+					if(Integer.valueOf(cellRangeAddress.getLastColumn()).equals(Integer.valueOf(startCell-1)) ) {
+						// 最后一列
+						Cell originCell = targetRow.getCell(startCell-1);
+						int celloffset = 0;
+						while(null == originCell) {
+							originCell = targetRow.getCell(startCell-celloffset--);
+						}
+						for(int i = startCell;i < startCell  +insertNum ;i++) {
+							Cell targetCell = targetRow.createCell(i);
+							targetCell.setCellStyle(originCell.getCellStyle());
+						}
+						sheet.addMergedRegion(new CellRangeAddress(cellRangeAddress.getFirstRow(), cellRangeAddress.getLastRow(), cellRangeAddress.getFirstColumn(), startCell-1 + insertNum));
+						for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
+							 CellRangeAddress range = ((org.apache.poi.ss.usermodel.Sheet) sheet).getMergedRegion(i);
+							 if(range == cellRangeAddress) {
+								 sheet.removeMergedRegion(i);
+							 }
+						}
+					}
+			
+				}
+		
+			}
+			// 对应补列前的问题 end
+			
 
 		}
 		  
 		  
 	 }
+	 
+	 public void copyCellValue(Cell originCell,Cell targetCell) {
+		 if (originCell != null) {
+			 targetCell.setCellType(originCell.getCellType());
+			 targetCell.setCellStyle(originCell.getCellStyle());
+			 switch (originCell.getCellType()) {
+			 	case HSSFCell.CELL_TYPE_FORMULA:
+			 		targetCell.setCellFormula(originCell.getCellFormula());
+			 		break;
+			 	default:
+			 		targetCell.setCellValue(originCell.getStringCellValue());
+			 		break;
+			 			
+			 }
+		 }
+	 }
+	 
 	 
 	    private  CellRangeAddress getCellRangeAddress(HSSFSheet sheet, int row, int column) {
 	    	

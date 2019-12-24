@@ -35,6 +35,8 @@ public class ExcelReport {
 	
 	private boolean isDelTemp = false;
 	
+	private String P_A_T_H_N_A_M_E = File.separator;
+	
 	public ExcelReport() {
 		this(true);
 	}
@@ -118,7 +120,7 @@ public class ExcelReport {
 			logger.debug("临时文件删除成功PATH=" + tmpFileName);
 		}
 		
-		return tmpFileName;
+		return P_A_T_H_N_A_M_E;
 	}
 	
 	/**
@@ -159,7 +161,7 @@ public class ExcelReport {
 			logger.debug("临时文件删除成功PATH=" + tmpFileName);
 		}
 		
-		return tmpFileName;
+		return P_A_T_H_N_A_M_E;
 	}
 	
 	/**
@@ -204,7 +206,7 @@ public class ExcelReport {
 			logger.debug("临时文件删除成功PATH=" + tmpFileName);
 		}
 		
-		return tmpFileName;
+		return P_A_T_H_N_A_M_E;
 	}
 	
 	/**
@@ -335,8 +337,10 @@ public class ExcelReport {
 		
 		String tmpFileName = "";
 		
+		String pathName = File.separator + DateUtil.dateToString(new Date(), "yyyy-MM-dd") + File.separator;
+		
 		// 生成下载文件的临时路径
-		String tmpFilePath = tempDictionaryPath + File.separator + DateUtil.dateToString(new Date(), "yyyy-MM-dd") + File.separator;
+		String tmpFilePath = tempDictionaryPath + pathName;
 		
 		File file = new File(tmpFilePath);
 		if (!file.exists()) {
@@ -344,7 +348,12 @@ public class ExcelReport {
 		}
 		
 		// tmpFileName = tmpFilePath + UUID.randomUUID().toString() + ".xls";
-		tmpFileName = tmpFilePath + UUID.randomUUID().toString() + ".et";
+		
+		String uuid = UUID.randomUUID().toString() + ".et";
+		
+		tmpFileName = tmpFilePath + uuid;
+		
+		P_A_T_H_N_A_M_E = pathName + uuid;
 		
 		// 复制一个文件去临时目录
 		FileUtils.copyFile(new File(templatePath), new File(tmpFileName));

@@ -44,15 +44,17 @@ public class cs {
 		// map.put("nation", "汉族");
 		// map.put("age", "30");
 		map.put("cccc", "李四");
+		map.put("hylx1", "1");
 		dataList.add(map);
 		
 		map = new HashMap<String, String>();
 		map.put("name", "李四");
 		map.put("cccc", "李四1");
 		map.put("number", "001");
+		map.put("hylx1", "9999");
 		dataList.add(map);
 		
-		report.exportExcel(new ReportData(mapT, dataList), "E:/yhryxx.xls", "E://test//");
+		report.exportExcel(new ReportData(mapT, dataList), "E:/hylxtj.et", "E://test//");
 		
 	}
 	

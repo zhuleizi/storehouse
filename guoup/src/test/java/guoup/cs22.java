@@ -69,7 +69,7 @@ public class cs22 {
 		sheetTable.add("第1页", datalist, "第1页"); // 这个sheet 生成2个数据sheet
 		sheetTable.add("第2页", datalist, "第2页"); // 这个生成1 个
 		
-		report.exportExcel(sheetTable, "E:/lzcx2.xls", "E://test//");
+		report.exportExcel(sheetTable, "E:/hylxtj.et", "E://test//");
 		
 	}
 	
