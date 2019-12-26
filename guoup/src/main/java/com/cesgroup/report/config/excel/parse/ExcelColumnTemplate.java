@@ -245,15 +245,12 @@ public class ExcelColumnTemplate extends Parse implements ExcelTemplateParse {
 					Cell originCell = targetRow.getCell(index);
 					if(null != originCell) {
 						Cell targetCell = targetRow.createCell(index + insertNum);
-						try {
-							copyCellValue(originCell,targetCell);
+						copyCellValue(originCell,targetCell);
 						//targetCell.setCellValue(originCell.getStringCellValue());
-						}catch(Exception e) {
-							e.printStackTrace();
-						}
 						targetCell.setCellStyle(originCell.getCellStyle());
+						targetRow.removeCell(originCell);
 					}
-					targetRow.removeCell(originCell);
+					
 				} else {
 						if(Integer.valueOf(cellRangeAddress.getFirstRow()).equals(Integer.valueOf(rowIndex))) {
 							// 相差的列
@@ -267,6 +264,34 @@ public class ExcelColumnTemplate extends Parse implements ExcelTemplateParse {
 								targetCell.setCellStyle(originCell.getCellStyle());
 								
 							}
+							// 补列的样式 START
+							int lastColumn = index + insertNum+subtra;
+							int firstColumn = index + insertNum;
+							if((lastColumn - firstColumn) > 0) {
+								for(int i = firstColumn + 1;i <= lastColumn;i++) {
+									Cell targetCell = targetRow.getCell(i);
+									if(null == targetCell) {
+										targetCell = targetRow.createCell(i);
+									}
+									targetCell.setCellStyle(originCell.getCellStyle());
+								}
+							}
+							// 补列的样式 END
+							// 补下一行最后一列的样式 START
+							if(cellRangeAddress.getLastRow() - cellRangeAddress.getFirstRow() > 0) {
+								for(int i = cellRangeAddress.getFirstRow() + 1;i <= cellRangeAddress.getLastRow();i++) {
+									HSSFRow targetRow1 = sheet.getRow(i);
+									if(null == targetRow1) {
+										continue;
+									}
+									Cell targetCell = targetRow1.getCell(lastColumn);
+									if(null == targetCell) {
+										targetCell = targetRow1.createCell(lastColumn);
+									}
+									targetCell.setCellStyle(originCell.getCellStyle());
+								}
+							}
+							// 补下一行最后一列的样式 END
 							sheet.addMergedRegion(new CellRangeAddress(cellRangeAddress.getFirstRow(), cellRangeAddress.getLastRow(),index + insertNum, index + insertNum+subtra));
 							targetRow.removeCell(originCell);
 							for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
@@ -280,9 +305,10 @@ public class ExcelColumnTemplate extends Parse implements ExcelTemplateParse {
 				
 			}
 			// 对应补列前的问题 Start
-			if((startCell - 1) > 0) {
+			if((startCell -1) > 0) {
 				cellRangeAddress = getCellRangeAddress( sheet,  rowIndex,  startCell-1);
-				if(null != cellRangeAddress) {
+				
+				if(null != cellRangeAddress && (cellRangeAddress.getLastColumn() - cellRangeAddress.getFirstColumn()   > 0)) {
 					if(Integer.valueOf(cellRangeAddress.getLastColumn()).equals(Integer.valueOf(startCell-1)) ) {
 						// 最后一列
 						Cell originCell = targetRow.getCell(startCell-1);

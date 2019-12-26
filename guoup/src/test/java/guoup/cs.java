@@ -27,6 +27,8 @@ public class cs {
 		list.add("性别");
 		list.add("民族");
 		list.add("年龄");
+		list.add("年龄2");
+		list.add("年龄3");
 		mapT.put("heads", list);
 		
 		list = new ArrayList<String>();
@@ -34,6 +36,8 @@ public class cs {
 		list.add("${arg[1].gender,ROW_LIST}");
 		list.add("${arg[1].nation,ROW_LIST}");
 		list.add("${arg[1].age,ROW_LIST}");
+		list.add("${arg[1].age2,ROW_LIST}");
+		list.add("${arg[1].age3,ROW_LIST}");
 		mapT.put("colNames", list);
 		
 		List<Map> dataList = new ArrayList<Map>();
@@ -54,7 +58,7 @@ public class cs {
 		map.put("hylx1", "9999");
 		dataList.add(map);
 		
-		report.exportExcel(new ReportData(mapT, dataList), "E:/hylxtj.et", "E://test//");
+		report.exportExcel(new ReportData(mapT, dataList), "E:/lzcx.et", "E://test//");
 		
 	}
 	
