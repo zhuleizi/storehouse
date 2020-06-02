@@ -67,7 +67,7 @@ public class cs23 {
 		
 		datalist.add(new ReportData(mapT, dataList));
 		
-		report.exportExcel(new SheetRef(null, datalist, "第1页", "第2页"), "E:/lzcx2.xls", "E://test//");
+		report.exportExcel(new SheetRef(null, datalist, "第1页", "第2页"), "E:/lzcx998.xls", "E://test//");
 		
 	}
 	

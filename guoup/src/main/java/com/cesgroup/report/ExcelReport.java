@@ -35,7 +35,11 @@ public class ExcelReport {
 	
 	private boolean isDelTemp = false;
 	
+	private boolean isByte = false;
+	
 	private String P_A_T_H_N_A_M_E = File.separator;
+	
+	private byte[] bytes = new byte[0];
 	
 	public ExcelReport() {
 		this(true);
@@ -43,6 +47,15 @@ public class ExcelReport {
 	
 	public ExcelReport(boolean isDelTemp) {
 		this.isDelTemp = isDelTemp;
+	}
+	
+	public ExcelReport(boolean isDelTemp, boolean isByte) {
+		this.isDelTemp = isDelTemp;
+		this.isByte = isByte;
+	}
+	
+	public byte[] getBytes() {
+		return this.bytes;
 	}
 	
 	/**
@@ -70,8 +83,7 @@ public class ExcelReport {
 	 * @author Sakamoto
 	 */
 	public String exportExcel(Object[] reportDatas, String templatePath, String tempDictionaryPath) throws Exception {
-		byte[] bytes = new byte[0];
-		
+		bytes = new byte[0];
 		// 临时文件
 		String tmpFileName = createTempTemplateFile(templatePath, tempDictionaryPath);
 		
@@ -88,7 +100,6 @@ public class ExcelReport {
 		excelTemplate.initializeWorkbook(tmpFileName).executeTemplateParse(reportDatas);
 		
 		excelTemplate.saveToFile(tmpFileName);
-		
 		// 初始化工作薄取得相应的参数
 		// List<String> excelParams = excelTemplate.readExcelParams();
 		
@@ -113,13 +124,14 @@ public class ExcelReport {
 		
 		logger.debug("临时文件保存成功PATH=" + tmpFileName);
 		
-		// bytes = excelTemplate.toBytes();
+		if (isByte) {
+			bytes = excelTemplate.toBytes();
+		}
 		
 		if (isDelTemp) {
 			new File(tmpFileName).delete();
 			logger.debug("临时文件删除成功PATH=" + tmpFileName);
 		}
-		
 		return P_A_T_H_N_A_M_E;
 	}
 	
@@ -134,8 +146,7 @@ public class ExcelReport {
 	 * @author Sakamoto
 	 */
 	public String exportExcel(SheetRef sheetRef, String templateFile, String tempDir) throws Exception {
-		
-		byte[] bytes = new byte[0];
+		bytes = new byte[0];
 		
 		String tmpFileName = createTempTemplateFile(templateFile, tempDir);
 		
@@ -154,7 +165,9 @@ public class ExcelReport {
 		}
 		saveToFile(tmpFileName);
 		
-		// bytes = getBytes(tmpFileName);
+		if (isByte) {
+			bytes = excelTemplate.toBytes();
+		}
 		
 		if (isDelTemp) {
 			new File(tmpFileName).delete();
@@ -176,8 +189,7 @@ public class ExcelReport {
 	 * @author Sakamoto
 	 */
 	public String exportExcel(SheetTable sheetTable, String templateFile, String tempDir) throws Exception {
-		
-		byte[] bytes = new byte[0];
+		bytes = new byte[0];
 		// 生成临时文件
 		String tmpFileName = createTempTemplateFile(templateFile, tempDir);
 		
@@ -199,7 +211,9 @@ public class ExcelReport {
 		}
 		saveToFile(tmpFileName);
 		
-		// bytes = getBytes(tmpFileName);
+		if (isByte) {
+			bytes = excelTemplate.toBytes();
+		}
 		
 		if (isDelTemp) {
 			new File(tmpFileName).delete();
